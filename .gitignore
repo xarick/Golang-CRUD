@@ -1,0 +1,6 @@
+/.idea
+/.vscode
+/tmp
+.env
+gin.log
+gin-error.log
