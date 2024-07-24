@@ -37,6 +37,13 @@ func main() {
 	cfg := config.LoadConfig()
 	app := bootstrap.New(cfg)
 
+	// file for writing json
+	fJson, err := os.OpenFile(cfg.FileName, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		log.Panic(err)
+	}
+	defer fJson.Close()
+
 	ctx, cancel := context.WithCancel(context.Background())
 
 	go func() {

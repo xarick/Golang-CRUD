@@ -9,8 +9,9 @@ import (
 )
 
 type Application struct {
-	GinMode string
-	RunPort string
+	GinMode  string
+	RunPort  string
+	FileName string
 }
 
 func LoadConfig() Application {
@@ -25,5 +26,6 @@ func LoadConfig() Application {
 	}
 
 	cfg.RunPort = os.Getenv("RUN_PORT")
+	cfg.FileName = os.Getenv("FILE_NAME")
 	return cfg
 }
