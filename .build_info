@@ -1,0 +1,4 @@
+PROJECT_NAME=golang-crud
+APP=golang-crud
+REGISTRY=golang-crud.local
+CURRENT=$(pwd)
