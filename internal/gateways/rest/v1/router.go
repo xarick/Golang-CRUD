@@ -11,6 +11,8 @@ func NewRouter(r *gin.Engine, ctrl *Controller) *gin.Engine {
 		private := api.Use(AuthMiddleware())
 		{
 			private.POST("/add", ctrl.Add)
+			private.PUT("/update/:id", ctrl.Update)
+			private.DELETE("/delete/:id", ctrl.Delete)
 		}
 	}
 

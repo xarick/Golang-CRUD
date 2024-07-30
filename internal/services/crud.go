@@ -64,7 +64,7 @@ func (cs *CRUDService) GetUsers() ([]models.User, error) {
 	return cs.LoadUsers()
 }
 
-func (cs *CRUDService) UpdateUser(id, name, email, address string) (models.User, error) {
+func (cs *CRUDService) UpdateUser(id string, us models.UserCrUp) (models.User, error) {
 	users, err := cs.LoadUsers()
 	if err != nil {
 		return models.User{}, err
@@ -72,9 +72,9 @@ func (cs *CRUDService) UpdateUser(id, name, email, address string) (models.User,
 
 	for i, user := range users {
 		if user.ID == id {
-			users[i].Name = name
-			users[i].Email = email
-			users[i].Address = address
+			users[i].Name = us.Name
+			users[i].Email = us.Email
+			users[i].Address = us.Address
 
 			err = cs.SaveUsers(users)
 			if err != nil {

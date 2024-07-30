@@ -43,7 +43,28 @@ func (c *Controller) GetUser(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{"data": user})
 }
 
-// if ID == "" {
-// 	ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "ID cannot be empty"})
-// 	return
-// }
+func (c *Controller) Update(ctx *gin.Context) {
+	user := models.UserCrUp{}
+	if err := ctx.BindJSON(&user); err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	newUser, err := c.serv.CRUDSer.UpdateUser(ctx.Param("id"), user)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"data": newUser})
+}
+
+func (c *Controller) Delete(ctx *gin.Context) {
+	err := c.serv.CRUDSer.DeleteUser(ctx.Param("id"))
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"data": "Deleted"})
+}
