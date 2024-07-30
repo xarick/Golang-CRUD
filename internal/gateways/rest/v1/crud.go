@@ -4,12 +4,31 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/xarick/golang-crud/internal/models"
 )
 
 func (c *Controller) GetAll(ctx *gin.Context) {
-	ctx.JSON(http.StatusOK, gin.H{"Status": "Get All"})
+	users, err := c.serv.CRUDSer.GetUsers()
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"data": users})
 }
 
 func (c *Controller) Add(ctx *gin.Context) {
-	ctx.JSON(http.StatusOK, gin.H{"Status": "Add struct"})
+	user := models.UserCrUp{}
+	if err := ctx.BindJSON(&user); err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	newUser, err := c.serv.CRUDSer.CreateUser(user)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"data": newUser})
 }

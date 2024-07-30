@@ -21,11 +21,13 @@ func main() {
 	if err != nil {
 		log.Panic(err)
 	}
+	defer f.Close()
 
 	fEr, err := os.OpenFile("gin-error.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		log.Panic(err)
 	}
+	defer fEr.Close()
 
 	gin.DisableConsoleColor()
 	gin.DefaultWriter = io.MultiWriter(f, os.Stdout)
@@ -37,8 +39,8 @@ func main() {
 	cfg := config.LoadConfig()
 	app := bootstrap.New(cfg)
 
-	// file for writing json
-	fJson, err := os.OpenFile(cfg.FileName, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	// created and write [] to users.json
+	fJson, err := os.OpenFile(cfg.FileName, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644) // os.O_RDWR
 	if err != nil {
 		log.Panic(err)
 	}
