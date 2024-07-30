@@ -4,3 +4,4 @@
 .env
 gin.log
 gin-error.log
+users.json
