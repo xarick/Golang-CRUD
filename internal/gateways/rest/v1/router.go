@@ -5,7 +5,8 @@ import "github.com/gin-gonic/gin"
 func NewRouter(r *gin.Engine, ctrl *Controller) *gin.Engine {
 	api := r.Group("/api")
 	{
-		api.GET("/get-all", ctrl.GetAll)
+		api.GET("/users", ctrl.GetUsers)
+		api.GET("/user/:id", ctrl.GetUser)
 
 		private := api.Use(AuthMiddleware())
 		{
